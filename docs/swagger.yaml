@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+  title: pinterest_prince
+  version: '1.0'
+  termsOfService: 'https://github.com/teamb-prince/pinterest_prince_go'
+  description: ''
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /users:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users
+      description: ''
+    post:
+      summary: ''
+      operationId: post-users
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+            examples:
+              example-1: {}
+  /pins:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-pins
+    post:
+      summary: ''
+      operationId: post-pins
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                board_id:
+                  type: string
+                url:
+                  type: string
+                title:
+                  type: string
+                image_url:
+                  type: string
+                description:
+                  type: string
+  '/pins/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-pins-id
+  '/users/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-users-id
+    put:
+      summary: ''
+      operationId: put-users-id
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-users-id
+      responses:
+        '200':
+          description: OK
+  /login:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-login
+  /logout:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-logout
+  /image:
+    post:
+      summary: ''
+      operationId: post-image
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                  image_url:
+                    type: array
+                    items:
+                      type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+  '/tokens/{id}':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-tokens
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    delete:
+      summary: ''
+      operationId: delete-tokens-id
+      responses:
+        '200':
+          description: OK
+  /tokens:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-tokens
+    post:
+      summary: ''
+      operationId: post-tokens
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-tokens
+      responses:
+        '200':
+          description: OK
+  /boards:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-board
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-boards
+      responses:
+        '200':
+          description: OK
+  '/boards/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-boards-id
+    put:
+      summary: ''
+      operationId: put-boards-id
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-boards-id
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    user:
+      title: user
+      type: object
+      properties:
+        id:
+          type: string
