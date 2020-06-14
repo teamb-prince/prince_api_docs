@@ -38,7 +38,17 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ''
+              examples:
+                example-1: {}
       operationId: get-pins
     post:
       summary: ''
@@ -74,7 +84,25 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pin'
+              examples:
+                example-pin:
+                  value:
+                    id: ab917ee9-bf28-41ff-b914-550728159fae
+                    user_id: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
+                    original_user_id: mrypq
+                    url: mrypq
+                    title: 『LoL』少年アニメをテーマとしたスキンシリーズ「バトルアカデミア」がパッチ9.10で登場
+                    image_url: 'https://automaton-media.com/wp-content/uploads/2019/05/20190501-91106-001.jpg'
+                    board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+                    description: かわいい！！！！！！！！！！！！！
+                    created_at: '2020-01-02T10:10:10Z'
       operationId: get-pins-id
   '/users/{id}':
     parameters:
@@ -86,8 +114,29 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+              examples:
+                example-user:
+                  value:
+                    id: mrypq2
+                    first_name: めろ美
+                    last_name: めろ川
+                    email: meromero2@mero.com
+                    password_hash: $2a$06$.dMmdRsdoVdAXKRK/IfbIOTcFY.oraA.Fzym2k9oyCidTOLjS1/Om
+                    role: user
+                    profile_image: 'https://github.com/teamb-prince/test_storage/blob/master/image/profile_image2.jpeg'
+                    description: ２番手のめろぴっぴです
+                    location: めろ帝国
+                    web: 'https://github.com/teamb-prince'
+                    created_at: '2020-02-02T20:20:20Z'
       operationId: get-users-id
+      description: ''
     put:
       summary: ''
       operationId: put-users-id
@@ -101,17 +150,19 @@ paths:
         '200':
           description: OK
   /login:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-login
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
   /logout:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-logout
+    post:
+      summary: ''
+      operationId: post-logout
+      responses:
+        '200':
+          description: OK
   /image:
     post:
       summary: ''
@@ -197,7 +248,22 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/board'
+              examples:
+                example-board:
+                  value:
+                    id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+                    user_id: mrypq
+                    name: LoL skins
+                    topic_id: 004d09c5-c788-4468-9b68-96b5735ced9b
+                    description: league of legends / skin collection
+                    created_at: '2019-07-08T07:07:07Z'
       operationId: get-boards-id
     put:
       summary: ''
@@ -219,3 +285,93 @@ components:
       properties:
         id:
           type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        password_hash:
+          type: string
+        role:
+          type: string
+        profile_image:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        web:
+          type: string
+        created_at:
+          type: timestamp
+      x-examples:
+        example-user:
+          id: mrypq2
+          first_name: めろ美
+          last_name: めろ川
+          email: meromero2@mero.com
+          password_hash: $2a$06$.dMmdRsdoVdAXKRK/IfbIOTcFY.oraA.Fzym2k9oyCidTOLjS1/Om
+          role: user
+          profile_image: 'https://github.com/teamb-prince/test_storage/blob/master/image/profile_image2.jpeg'
+          description: ２番手のめろぴっぴです
+          location: めろ帝国
+          web: 'https://github.com/teamb-prince'
+          created_at: '2020-02-02T20:20:20Z'
+    pin:
+      title: pin
+      type: object
+      x-examples:
+        example-pin:
+          id: ab917ee9-bf28-41ff-b914-550728159fae
+          user_id: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
+          original_user_id: mrypq
+          url: mrypq
+          title: 『LoL』少年アニメをテーマとしたスキンシリーズ「バトルアカデミア」がパッチ9.10で登場
+          image_url: 'https://automaton-media.com/wp-content/uploads/2019/05/20190501-91106-001.jpg'
+          board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+          description: かわいい！！！！！！！！！！！！！
+          created_at: '2020-01-02T10:10:10Z'
+      properties:
+        id:
+          type: uuid
+        user_id:
+          type: string
+        original_user_id:
+          type: string
+        url:
+          type: string
+        title:
+          type: string
+        image_url:
+          type: string
+        board_id:
+          type: uuid
+        description:
+          type: string
+        created_at:
+          type: timestamp
+    board:
+      title: board
+      type: object
+      x-examples:
+        example-board:
+          id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+          user_id: mrypq
+          name: LoL skins
+          topic_id: 004d09c5-c788-4468-9b68-96b5735ced9b
+          description: league of legends / skin collection
+          created_at: '2019-07-08T07:07:07Z'
+      properties:
+        id:
+          type: uuid
+        user_id:
+          type: string
+        name:
+          type: string
+        topic_id:
+          type: uuid
+        description:
+          type: string
+        created_at:
+          type: timestamp
