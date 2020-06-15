@@ -277,6 +277,85 @@ paths:
       responses:
         '200':
           description: OK
+  /topics:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/topic'
+              examples:
+                example-topics:
+                  value:
+                    - id: 8083e9df-e30e-457f-b853-2bb70fbb025b
+                      name: ''
+                    - id: ca15c1f4-35ef-48d1-8384-646050c699b9
+                      name: アート
+                    - id: ddf3aab7-744b-4b3f-a9ea-6592f6d67eac
+                      name: 写真
+                    - id: 779f38f3-3430-4ba0-9731-d60041cee2db
+                      name: アウトドア
+                    - id: 54a43a11-b652-4591-b043-5865af254687
+                      name: アニメ・フィギュア
+                    - id: 004d09c5-c788-4468-9b68-96b5735ced9b
+                      name: イラスト・ポスター
+                    - id: 1fc63a86-8c58-4b8a-8cb8-e249c7d37905
+                      name: インテリア
+                    - id: 8d25a80c-b794-4d19-b3f8-16b1d1c19193
+                      name: ウェディング
+                    - id: 512d3e08-02f4-4044-a06d-b0a23df61080
+                      name: エンターテイメント
+                    - id: 8d076aab-d2cb-416c-ab7e-405ef2e6ef89
+                      name: ガーデニング
+                    - id: 78b52885-f7f9-490f-9d58-18561eff700a
+                      name: 自然・科学
+                    - id: 5f7e6c79-e7b7-481b-a63b-d7e604372372
+                      name: 教育関連
+                    - id: 7ff88c1b-a884-4fd6-a7ef-05e6b09fc79f
+                      name: 建築
+                    - id: 5f4635d6-e7a4-49fb-bbec-128c2dbd56d9
+                      name: 子供・子育て
+                    - id: 6bf77210-422f-4bee-a611-e2689699a7ac
+                      name: 車・バイク
+                    - id: 234c5e79-d6a7-4c1a-b6d4-7c6120b3eb48
+                      name: スポーツ
+                    - id: f707f6c6-1490-41d2-b651-6b85f0563c3d
+                      name: 生活雑貨
+                    - id: b90a6ba6-bf86-43d0-9723-c6ada4721816
+                      name: セレブ・有名人
+                    - id: 7dcc3930-c058-412a-99e1-b732ef36bbf6
+                      name: DIY・ハンドメイド
+                    - id: cd8bf150-a5b7-417d-b070-8cd5ba7a51a1
+                      name: デザイン
+                    - id: cf76d2ed-a255-4363-a9d2-855170e1fee6
+                      name: 動物・ペット
+                    - id: 1ca44c07-f20c-4992-89bd-aa8e66997c02
+                      name: フード・ドリンク
+                    - id: 2c51528d-e6c4-4126-bc09-26fd847c0834
+                      name: ヘア・ビューティー
+                    - id: 5b931b3a-139d-4d0c-b15e-94403a70cc57
+                      name: ヘルス・フィットネス
+                    - id: dc420b83-9127-4baa-aea4-ffd41cfc5527
+                      name: ホリデー・イベント
+                    - id: 90fed106-2572-4ef2-83c8-1139b147b5c4
+                      name: 名言
+                    - id: 1f97f571-f1ab-4e41-9ce6-4f5145649c8f
+                      name: メンズファッション
+                    - id: 9ebe6323-a0a5-454e-8a1b-ba3ba222c2b4
+                      name: ユーモア
+                    - id: f77b2692-2788-4e7e-a175-ab10d13ee305
+                      name: 旅行
+                    - id: 3f9cbe32-9e2a-41b4-a4cd-e6644810c79f
+                      name: 歴史
+                    - id: 4fee81ce-a0fb-429f-ab71-e68d46507615
+                      name: レディースファッション
+      operationId: get-topics
 components:
   schemas:
     user:
@@ -375,3 +454,15 @@ components:
           type: string
         created_at:
           type: timestamp
+    topic:
+      title: topic
+      type: object
+      properties:
+        id:
+          type: uuid
+        name:
+          type: string
+      x-examples:
+        example-topic:
+          id: ca15c1f4-35ef-48d1-8384-646050c699b9
+          name: アート
