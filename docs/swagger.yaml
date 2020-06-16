@@ -9,13 +9,13 @@ servers:
 paths:
   /users:
     get:
-      summary: Your GET endpoint
+      summary: GET users
       tags: []
       responses: {}
       operationId: get-users
       description: ''
     post:
-      summary: ''
+      summary: POST users
       operationId: post-users
       responses:
         '200':
@@ -36,7 +36,7 @@ paths:
               example-1: {}
   /pins:
     get:
-      summary: Your GET endpoint
+      summary: GET pins
       tags: []
       responses:
         '200':
@@ -51,11 +51,27 @@ paths:
                 example-1: {}
       operationId: get-pins
     post:
-      summary: ''
+      summary: POST pins
       operationId: post-pins
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pin'
+              examples:
+                example-pin:
+                  value:
+                    id: 2139e299-b2d5-44c8-b3c3-edb4735abea3
+                    user_id: mrypq
+                    original_user_id: mrypq
+                    url: 'http://lolyarou.net/archives/1346'
+                    title: 'About PBE Update 16/8/5 – Arcade Ahri, Arcade Corkiのスプラッシュアートが確認、Arcade Ezrealの情報が確認、Chroma Assetsが追加など – つきひのLOL日記'
+                    image_url: 'https://i1.wp.com/lolyarou.net/wp-content/uploads/2016/08/2eaaf8b0ae33f1b2.jpg'
+                    board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+                    description: かわいい！！！！！！！！！！！！！
+                    created_at: '2020-06-16T09:37:09.32587+09:00'
       requestBody:
         content:
           application/json:
@@ -63,6 +79,8 @@ paths:
               type: object
               properties:
                 user_id:
+                  type: string
+                original_user_id:
                   type: string
                 board_id:
                   type: string
@@ -74,6 +92,18 @@ paths:
                   type: string
                 description:
                   type: string
+            examples:
+              example-pin:
+                value:
+                  user_id: mrypq
+                  original_user_id: mrypq
+                  url: 'http://lolyarou.net/archives/1346'
+                  image_url: 'https://i1.wp.com/lolyarou.net/wp-content/uploads/2016/08/2eaaf8b0ae33f1b2.jpg'
+                  board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+                  description: かわいい！！！！！！！！！！！！！
+      description: |-
+        ・pinを登録
+        ・他人のpinを自分のボードに登録
   '/pins/{id}':
     parameters:
       - schema:
@@ -82,7 +112,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: GET pin
       tags: []
       responses:
         '200':
@@ -95,15 +125,16 @@ paths:
                 example-pin:
                   value:
                     id: ab917ee9-bf28-41ff-b914-550728159fae
-                    user_id: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
+                    user_id: mrypq
                     original_user_id: mrypq
-                    url: mrypq
+                    url: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
                     title: 『LoL』少年アニメをテーマとしたスキンシリーズ「バトルアカデミア」がパッチ9.10で登場
                     image_url: 'https://automaton-media.com/wp-content/uploads/2019/05/20190501-91106-001.jpg'
                     board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
                     description: かわいい！！！！！！！！！！！！！
                     created_at: '2020-01-02T10:10:10Z'
       operationId: get-pins-id
+      description: ピンを単体で取得
   '/users/{id}':
     parameters:
       - schema:
@@ -112,7 +143,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: GET user
       tags: []
       responses:
         '200':
@@ -138,27 +169,28 @@ paths:
       operationId: get-users-id
       description: ''
     put:
-      summary: ''
+      summary: PUT user
       operationId: put-users-id
       responses:
         '200':
           description: OK
     delete:
-      summary: ''
+      summary: DELETE user
       operationId: delete-users-id
       responses:
         '200':
           description: OK
   /login:
     post:
-      summary: ''
+      summary: POST login
       operationId: post-login
       responses:
         '200':
           description: OK
+      description: ''
   /logout:
     post:
-      summary: ''
+      summary: POST logout
       operationId: post-logout
       responses:
         '200':
@@ -191,10 +223,11 @@ paths:
                   type: string
   '/tokens/{id}':
     get:
-      summary: Your GET endpoint
+      summary: GET token
       tags: []
       responses: {}
       operationId: get-tokens
+      description: トークンを取得
     parameters:
       - schema:
           type: string
@@ -202,35 +235,40 @@ paths:
         in: path
         required: true
     delete:
-      summary: ''
+      summary: DELETE token
       operationId: delete-tokens-id
       responses:
         '200':
           description: OK
   /tokens:
     get:
-      summary: Your GET endpoint
+      summary: GET tokens
       tags: []
       responses: {}
       operationId: get-tokens
+      description: トークンの一覧を取得
     post:
-      summary: ''
+      summary: POST tokens
       operationId: post-tokens
       responses:
         '200':
           description: OK
+      description: トークンを登録
     delete:
-      summary: ''
+      summary: DELETE tokens
       operationId: delete-tokens
       responses:
         '200':
           description: OK
+      description: 期限切れのトークンを一斉削除
   /boards:
     get:
-      summary: Your GET endpoint
+      summary: GET boards
       tags: []
       responses: {}
       operationId: get-board
+      description: ''
+      parameters: []
     parameters: []
     post:
       summary: ''
@@ -238,6 +276,40 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/board'
+              examples:
+                example-board:
+                  value:
+                    id: 0fa0f068-9fbd-4edb-9f7a-255408cb99e1
+                    user_id: mrypq
+                    name: 100均お役立ちグッズ
+                    topic_id: f707f6c6-1490-41d2-b651-6b85f0563c3d
+                    description: 100均で買えるお役立ち商品まとめ❤️
+                    created_at: '2020-06-16T09:06:44.705738+09:00'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                name:
+                  type: string
+                topic_id:
+                  type: uuid
+                description:
+                  type: string
+            examples:
+              example-board:
+                value:
+                  user_id: mrypq
+                  name: 100均お役立ちグッズ
+                  topic_id: f707f6c6-1490-41d2-b651-6b85f0563c3d
+                  description: 100均で買えるお役立ち商品まとめ❤️
   '/boards/{id}':
     parameters:
       - schema:
@@ -246,7 +318,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: GET board
       tags: []
       responses:
         '200':
@@ -264,22 +336,39 @@ paths:
                     topic_id: 004d09c5-c788-4468-9b68-96b5735ced9b
                     description: league of legends / skin collection
                     created_at: '2019-07-08T07:07:07Z'
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/board'
+              examples:
+                example-board:
+                  value:
+                    id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+                    user_id: mrypq
+                    name: LoL skins
+                    topic_id: 004d09c5-c788-4468-9b68-96b5735ced9b
+                    description: league of legends / skin collection
+                    created_at: '2019-07-08T07:07:07Z'
       operationId: get-boards-id
+      description: ボードを単体で取得
     put:
-      summary: ''
+      summary: PUT board
       operationId: put-boards-id
       responses:
         '200':
           description: OK
+      description: ボードの情報を更新
     delete:
-      summary: ''
+      summary: DELETE board
       operationId: delete-boards-id
       responses:
         '200':
           description: OK
+      description: ボードを削除
   /topics:
     get:
-      summary: Your GET endpoint
+      summary: GET topics
       tags: []
       responses:
         '200':
@@ -356,6 +445,7 @@ paths:
                     - id: 4fee81ce-a0fb-429f-ab71-e68d46507615
                       name: レディースファッション
       operationId: get-topics
+      description: トピックの一覧を取得
 components:
   schemas:
     user:
@@ -403,9 +493,9 @@ components:
       x-examples:
         example-pin:
           id: ab917ee9-bf28-41ff-b914-550728159fae
-          user_id: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
+          user_id: mrypq
           original_user_id: mrypq
-          url: mrypq
+          url: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
           title: 『LoL』少年アニメをテーマとしたスキンシリーズ「バトルアカデミア」がパッチ9.10で登場
           image_url: 'https://automaton-media.com/wp-content/uploads/2019/05/20190501-91106-001.jpg'
           board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
