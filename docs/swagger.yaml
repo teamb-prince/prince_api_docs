@@ -11,32 +11,64 @@ paths:
     get:
       summary: GET users
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+              examples: {}
       operationId: get-users
-      description: ''
+      description: ユーザーの非公開情報を取得する（一覧）
     post:
-      summary: POST users
+      summary: ''
       operationId: post-users
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+              examples:
+                example-user:
+                  value:
+                    id: mrypq2
+                    first_name: mrypq2
+                    last_name: ''
+                    email: meromero2@mero.com
+                    password_hash: $2a$06$.dMmdRsdoVdAXKRK/IfbIOTcFY.oraA.Fzym2k9oyCidTOLjS1/Om
+                    role: user
+                    profile_image: ''
+                    description: ''
+                    location: ''
+                    web: ''
+                    created_at: '2020-02-02T20:20:20Z'
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                user_id:
+                id:
                   type: string
                 email:
                   type: string
                 password:
                   type: string
             examples:
-              example-1: {}
+              example-requser:
+                value:
+                  id: mrypq2
+                  email: meromero2@mero.com
+                  password: hogehoge
+      description: ユーザーを登録する
   /pins:
     get:
-      summary: GET pins
+      summary: GET Pins
       tags: []
       responses:
         '200':
@@ -46,73 +78,38 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ''
+                  $ref: '#/components/schemas/pin'
               examples:
                 example-1: {}
       operationId: get-pins
-    post:
-      summary: POST pins
-      operationId: post-pins
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/pin'
-              examples:
-                example-pin:
-                  value:
-                    id: 2139e299-b2d5-44c8-b3c3-edb4735abea3
-                    user_id: mrypq
-                    original_user_id: mrypq
-                    url: 'http://lolyarou.net/archives/1346'
-                    title: 'About PBE Update 16/8/5 – Arcade Ahri, Arcade Corkiのスプラッシュアートが確認、Arcade Ezrealの情報が確認、Chroma Assetsが追加など – つきひのLOL日記'
-                    image_url: 'https://i1.wp.com/lolyarou.net/wp-content/uploads/2016/08/2eaaf8b0ae33f1b2.jpg'
-                    board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
-                    description: かわいい！！！！！！！！！！！！！
-                    created_at: '2020-06-16T09:37:09.32587+09:00'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user_id:
-                  type: string
-                original_user_id:
-                  type: string
-                board_id:
-                  type: string
-                url:
-                  type: string
-                title:
-                  type: string
-                image_url:
-                  type: string
-                description:
-                  type: string
-            examples:
-              example-pin:
-                value:
-                  user_id: mrypq
-                  original_user_id: mrypq
-                  url: 'http://lolyarou.net/archives/1346'
-                  image_url: 'https://i1.wp.com/lolyarou.net/wp-content/uploads/2016/08/2eaaf8b0ae33f1b2.jpg'
-                  board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
-                  description: かわいい！！！！！！！！！！！！！
-      description: |-
-        ・pinを登録
-        ・他人のpinを自分のボードに登録
+      description: ピンの一覧を取得する
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: user_id
+          description: ''
+        - schema:
+            type: uuid
+          in: query
+          name: board_id
+        - schema:
+            type: integer
+          in: query
+          name: limit
+          description: ''
+        - schema:
+            type: integer
+          in: query
+          name: offset
   '/pins/{id}':
     parameters:
       - schema:
           type: string
         name: id
         in: path
-        required: true
     get:
-      summary: GET pin
+      summary: GET Pin
       tags: []
       responses:
         '200':
@@ -132,9 +129,10 @@ paths:
                     image_url: 'https://automaton-media.com/wp-content/uploads/2019/05/20190501-91106-001.jpg'
                     board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
                     description: かわいい！！！！！！！！！！！！！
+                    upload_type: url
                     created_at: '2020-01-02T10:10:10Z'
       operationId: get-pins-id
-      description: ピンを単体で取得
+      description: ピンを取得する
   '/users/{id}':
     parameters:
       - schema:
@@ -143,7 +141,7 @@ paths:
         in: path
         required: true
     get:
-      summary: GET user
+      summary: GET User
       tags: []
       responses:
         '200':
@@ -166,10 +164,32 @@ paths:
                     location: めろ帝国
                     web: 'https://github.com/teamb-prince'
                     created_at: '2020-02-02T20:20:20Z'
+        '':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+              examples:
+                example-user:
+                  value:
+                    id: mrypq2
+                    first_name: めろ美
+                    last_name: めろ川
+                    email: meromero2@mero.com
+                    password_hash: $2a$06$.dMmdRsdoVdAXKRK/IfbIOTcFY.oraA.Fzym2k9oyCidTOLjS1/Om
+                    role: user
+                    profile_image: 'https://bucket-pinterest-001.s3-ap-northeast-1.amazonaws.com/sample/profile_image_2.jpg'
+                    description: ２番手のめろぴっぴです
+                    location: めろ帝国
+                    web: 'https://github.com/teamb-prince'
+                    created_at: '2020-02-02T20:20:20Z'
+          description: ''
       operationId: get-users-id
-      description: ''
+      description: |-
+        ユーザーの非公開情報を取得する
+        ユーザーの登録情報変更などに使用予定
     put:
-      summary: PUT user
+      summary: ''
       operationId: put-users-id
       responses:
         '200':
@@ -180,22 +200,24 @@ paths:
       responses:
         '200':
           description: OK
+      description: |-
+        ユーザを削除する
+        退会時に使用予定
   /login:
     post:
-      summary: POST login
+      summary: ''
       operationId: post-login
       responses:
         '200':
           description: OK
-      description: ''
   /logout:
     post:
-      summary: POST logout
+      summary: ''
       operationId: post-logout
       responses:
         '200':
           description: OK
-  /image:
+  /images/url-images:
     post:
       summary: ''
       operationId: post-image
@@ -205,14 +227,16 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  url:
-                    type: string
-                  image_url:
-                    type: array
-                    items:
-                      type: string
+                $ref: '#/components/schemas/images'
+              examples:
+                example-images:
+                  value:
+                    url: 'https://shop.sanrio.co.jp/group/2'
+                    image_url:
+                      - 'https://shop.sanrio.co.jp/common/img/img_banner_01.jpg'
+                      - 'https://shop.sanrio.co.jp/common/img/img_banner_01.jpg'
+                    title: 'マイメロディ | サンリオオンラインショップ - 公式通販サイト'
+                    description: ''
       requestBody:
         content:
           application/json:
@@ -221,57 +245,47 @@ paths:
               properties:
                 url:
                   type: string
-  '/tokens/{id}':
-    get:
-      summary: GET token
-      tags: []
-      responses: {}
-      operationId: get-tokens
-      description: トークンを取得
-    parameters:
-      - schema:
-          type: string
-        name: id
-        in: path
-        required: true
-    delete:
-      summary: DELETE token
-      operationId: delete-tokens-id
-      responses:
-        '200':
-          description: OK
-  /tokens:
-    get:
-      summary: GET tokens
-      tags: []
-      responses: {}
-      operationId: get-tokens
-      description: トークンの一覧を取得
-    post:
-      summary: POST tokens
-      operationId: post-tokens
-      responses:
-        '200':
-          description: OK
-      description: トークンを登録
-    delete:
-      summary: DELETE tokens
-      operationId: delete-tokens
-      responses:
-        '200':
-          description: OK
-      description: 期限切れのトークンを一斉削除
+            examples:
+              example-url:
+                value:
+                  url: 'https://shop.sanrio.co.jp/group/2'
+      description: 受け取ったURLの画像一覧/タイトル/説明をクロールして返す
+    parameters: []
   /boards:
     get:
       summary: GET boards
       tags: []
       responses: {}
       operationId: get-board
-      description: ''
-      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/board'
+            examples: {}
+      description: ボードの一覧を取得します
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: user_id
+        - schema:
+            type: uuid
+          in: query
+          name: topic_id
+        - schema:
+            type: integer
+          in: query
+          name: limit
+        - schema:
+            type: integer
+          in: query
+          name: offset
     parameters: []
     post:
-      summary: ''
+      summary: Create board
       operationId: post-boards
       responses:
         '200':
@@ -283,12 +297,13 @@ paths:
               examples:
                 example-board:
                   value:
-                    id: 0fa0f068-9fbd-4edb-9f7a-255408cb99e1
+                    id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
                     user_id: mrypq
-                    name: 100均お役立ちグッズ
-                    topic_id: f707f6c6-1490-41d2-b651-6b85f0563c3d
-                    description: 100均で買えるお役立ち商品まとめ❤️
-                    created_at: '2020-06-16T09:06:44.705738+09:00'
+                    name: LoL skins
+                    topic_id: 004d09c5-c788-4468-9b68-96b5735ced9b
+                    description: league of legends / skin collection
+                    created_at: '2019-07-08T07:07:07Z'
+      description: ボードを作成します
       requestBody:
         content:
           application/json:
@@ -300,16 +315,17 @@ paths:
                 name:
                   type: string
                 topic_id:
-                  type: uuid
+                  type: string
                 description:
                   type: string
             examples:
-              example-board:
+              example-1:
                 value:
                   user_id: mrypq
-                  name: 100均お役立ちグッズ
-                  topic_id: f707f6c6-1490-41d2-b651-6b85f0563c3d
-                  description: 100均で買えるお役立ち商品まとめ❤️
+                  name: LoL skins
+                  topic_id: 004d09c5-c788-4468-9b68-96b5735ced9b
+                  description: league of legends / skin collection
+        description: ''
   '/boards/{id}':
     parameters:
       - schema:
@@ -337,6 +353,7 @@ paths:
                     description: league of legends / skin collection
                     created_at: '2019-07-08T07:07:07Z'
         '':
+          description: ''
           content:
             application/json:
               schema:
@@ -351,21 +368,40 @@ paths:
                     description: league of legends / skin collection
                     created_at: '2019-07-08T07:07:07Z'
       operationId: get-boards-id
-      description: ボードを単体で取得
+      description: ボードを取得します
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/board'
+            examples: {}
     put:
-      summary: PUT board
+      summary: ''
       operationId: put-boards-id
       responses:
         '200':
           description: OK
-      description: ボードの情報を更新
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/board'
+              examples:
+                example-board:
+                  value:
+                    id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+                    user_id: mrypq
+                    name: LoL skins
+                    topic_id: 004d09c5-c788-4468-9b68-96b5735ced9b
+                    description: league of legends / skin collection
+                    created_at: '2019-07-08T07:07:07Z'
+      description: ボードの情報を更新します
     delete:
-      summary: DELETE board
+      summary: ''
       operationId: delete-boards-id
       responses:
         '200':
           description: OK
-      description: ボードを削除
+      description: ボートを削除します
   /topics:
     get:
       summary: GET topics
@@ -445,7 +481,176 @@ paths:
                     - id: 4fee81ce-a0fb-429f-ab71-e68d46507615
                       name: レディースファッション
       operationId: get-topics
-      description: トピックの一覧を取得
+      description: トピックの一覧を取得する
+  '/users/{id}/info':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: GET user (info)
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_info'
+              examples:
+                example-userinfo:
+                  value:
+                    id: mrypq2
+                    first_name: めろ美
+                    last_name: めろ川
+                    profile_image: 'https://bucket-pinterest-001.s3-ap-northeast-1.amazonaws.com/sample/profile_image_2.jpg'
+                    description: ２番手のめろぴっぴです
+                    location: めろ帝国
+                    web: 'https://github.com/teamb-prince'
+                    created_at: '2020-02-02T20:20:20Z'
+      operationId: get-users-id-info
+      description: |-
+        ユーザーの公開情報を取得する
+        プロフィールとかはこちらで表示する
+    put:
+      summary: ''
+      operationId: put-users-id-info
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_info'
+      description: ユーザーの公開情報を変更する
+  /users/info:
+    get:
+      summary: GET users (info)
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user_info'
+              examples: {}
+      operationId: get-users-info
+      description: ユーザーの公開情報を取得する（一覧）
+  /pins/local:
+    post:
+      summary: POST pin from local
+      operationId: post-pins-local
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pin'
+              examples:
+                example-pin:
+                  value:
+                    id: ab917ee9-bf28-41ff-b914-550728159fae
+                    user_id: mrypq
+                    original_user_id: mrypq
+                    url: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
+                    title: 『LoL』少年アニメをテーマとしたスキンシリーズ「バトルアカデミア」がパッチ9.10で登場
+                    image_url: 'https://automaton-media.com/wp-content/uploads/2019/05/20190501-91106-001.jpg'
+                    board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+                    description: かわいい！！！！！！！！！！！！！
+                    upload_type: url
+                    created_at: '2020-01-02T10:10:10Z'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pin'
+              examples:
+                example-pin: {}
+      description: ローカルからpinを登録する
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+            examples: {}
+          application/json:
+            schema:
+              type: object
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+          text/html:
+            schema:
+              type: object
+              properties: {}
+          text/plain:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+  /pins/url:
+    post:
+      summary: ''
+      operationId: post-pins-url
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pin'
+              examples:
+                example-pin:
+                  value:
+                    id: ab917ee9-bf28-41ff-b914-550728159fae
+                    user_id: mrypq
+                    original_user_id: mrypq
+                    url: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
+                    title: 『LoL』少年アニメをテーマとしたスキンシリーズ「バトルアカデミア」がパッチ9.10で登場
+                    image_url: 'https://automaton-media.com/wp-content/uploads/2019/05/20190501-91106-001.jpg'
+                    board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+                    description: かわいい！！！！！！！！！！！！！
+                    upload_type: url
+                    created_at: '2020-01-02T10:10:10Z'
+      description: URLからpinを登録する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                original_user_id:
+                  type: string
+                url:
+                  type: string
+                title:
+                  type: string
+                image_url:
+                  type: string
+                board_id:
+                  type: string
+                description:
+                  type: string
+            examples:
+              example-pin:
+                value:
+                  user_id: mrypq
+                  original_user_id: mrypq
+                  url: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
+                  title: 『LoL』少年アニメをテーマとしたスキンシリーズ「バトルアカデミア」がパッチ9.10で登場
+                  image_url: 'https://automaton-media.com/wp-content/uploads/2019/05/20190501-91106-001.jpg'
+                  board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
+                  description: かわいい！！！！！！！！！！！！！
 components:
   schemas:
     user:
@@ -482,7 +687,7 @@ components:
           email: meromero2@mero.com
           password_hash: $2a$06$.dMmdRsdoVdAXKRK/IfbIOTcFY.oraA.Fzym2k9oyCidTOLjS1/Om
           role: user
-          profile_image: 'https://github.com/teamb-prince/test_storage/blob/master/image/profile_image2.jpeg'
+          profile_image: 'https://bucket-pinterest-001.s3-ap-northeast-1.amazonaws.com/sample/profile_image_2.jpg'
           description: ２番手のめろぴっぴです
           location: めろ帝国
           web: 'https://github.com/teamb-prince'
@@ -493,13 +698,14 @@ components:
       x-examples:
         example-pin:
           id: ab917ee9-bf28-41ff-b914-550728159fae
-          user_id: mrypq
+          user_id: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
           original_user_id: mrypq
-          url: 'https://automaton-media.com/articles/newsjp/20190501-91106/'
+          url: mrypq
           title: 『LoL』少年アニメをテーマとしたスキンシリーズ「バトルアカデミア」がパッチ9.10で登場
           image_url: 'https://automaton-media.com/wp-content/uploads/2019/05/20190501-91106-001.jpg'
           board_id: 6a8a04cb-bd3b-4606-b88c-593dc4e51d63
           description: かわいい！！！！！！！！！！！！！
+          upload_type: url
           created_at: '2020-01-02T10:10:10Z'
       properties:
         id:
@@ -517,6 +723,8 @@ components:
         board_id:
           type: uuid
         description:
+          type: string
+        upload_type:
           type: string
         created_at:
           type: timestamp
@@ -556,3 +764,61 @@ components:
         example-topic:
           id: ca15c1f4-35ef-48d1-8384-646050c699b9
           name: アート
+    token:
+      title: token
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        expire:
+          type: timestamp
+      x-examples:
+        example-token:
+          id: 45ffac79-4469-4042-9606-8f5aa47231e9
+          user_id: mrypq
+          expire: '2030-01-11 10:10:10+09'
+    images:
+      title: images
+      type: object
+      description: ''
+      properties:
+        url:
+          type: string
+        origin_url:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+    user_info:
+      title: user_info
+      type: object
+      x-examples:
+        example-userinfo:
+          id: mrypq2
+          first_name: めろ美
+          last_name: めろ川
+          profile_image: 'https://bucket-pinterest-001.s3-ap-northeast-1.amazonaws.com/sample/profile_image_2.jpg'
+          description: ２番手のめろぴっぴです
+          location: めろ帝国
+          web: 'https://github.com/teamb-prince'
+          created_at: '2020-02-02T20:20:20Z'
+      properties:
+        id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        profile_image:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        web:
+          type: string
+        created_at:
+          type: timestamp
